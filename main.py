@@ -4,48 +4,42 @@ import subprocess
 from pathlib import Path
 
 
-def move():
+class branchEnum():
+    def __init__(self, branch1, branch2, branch3):
+        self.branch1 = branch1
+        self.branch2 = branch2
+        self.branch3 = branch3
+
+
+def move(argv: str):
+    print(f'{argv}')
+    os.chdir(argv)
+
+    if not Path(argv).is_dir():
+        print(f'error....')
+
     proc = subprocess.Popen('cd ', shell=True, stdin=subprocess.PIPE,
                             stdout=subprocess.PIPE)
     out, err = proc.communicate()
     print(str(out.decode()))
 
 
-def movesst(argv: str):
-    print(f'{argv}  ddddd')
-    os.chdir(argv)
-    if Path(argv).is_dir():
-        print(f'{Path(argv)}  경로 있음')
-    move()
-
-
-def moveLib(argv: str):
-    print(f'{argv}  ddddd')
-    os.chdir(argv)
-    move()
-
-
-def moveEnter(argv: str):
-    print(f'{argv}  ddddd')
-    os.chdir(argv)
-    move()
-
-
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    file_path = sys.argv[2]
-    if len(sys.argv) < 3:
+    if len(sys.argv) != 4:
         print("Insufficient arguments")
         sys.exit()
 
-    cur_path = Path(__file__).parent.resolve()
-    test = os.getcwd()
-    test = os.path.abspath("..")
+    enter_path = os.getcwd()
+    print(enter_path)
+    root_path = os.path.abspath("..")
+    print(root_path)
+    branch = branchEnum(sys.argv[1], sys.argv[2], sys.argv[3])
+    print(branch.branch1)
 
-    moveLibsst(test + '\\' + sys.argv[1])
-    #moveLibanalysis(test + '\\' + sys.argv[2])
-    #moveEnterprise(test + '\\' + sys.argv[3])
+    for i in sys.argv[1:]:
+        move(root_path + '\\' + i)
+
+
     print("Subprocess...........")
-    # proc = subprocess.Popen('cd & echo %cd% & echo a & echo b', shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-    # out, err = proc.communicate()
-    # print(str(out.decode()))
+
