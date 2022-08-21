@@ -3,7 +3,6 @@ import sys
 import subprocess
 from pathlib import Path
 
-
 class branchEnum():
     def __init__(self, branch1, branch2, branch3):
         self.branch1 = branch1
@@ -11,17 +10,19 @@ class branchEnum():
         self.branch3 = branch3
 
 
-def move(argv: str):
-    print(f'{argv}')
-    os.chdir(argv)
+def move(root:str ,directory: str, branch:str):
+    print(f'{directory}')
+    os.chdir(root + "\\" + directory)
 
-    if not Path(argv).is_dir():
+    if not Path(root + "\\" + directory).is_dir():
         print(f'error....')
 
-    proc = subprocess.Popen('cd ', shell=True, stdin=subprocess.PIPE,
+    command = "git checkout " + branch
+    print(command)
+    proc = subprocess.Popen(command, shell=True, stdin=subprocess.PIPE,
                             stdout=subprocess.PIPE)
     out, err = proc.communicate()
-    print(str(out.decode()))
+    print(out)
 
 
 # Press the green button in the gutter to run the script.
@@ -34,12 +35,9 @@ if __name__ == '__main__':
     print(enter_path)
     root_path = os.path.abspath("..")
     print(root_path)
-    branch = branchEnum(sys.argv[1], sys.argv[2], sys.argv[3])
-    print(branch.branch1)
-
-    for i in sys.argv[1:]:
-        move(root_path + '\\' + i)
+    #branch = branchEnum(sys.argv[1], sys.argv[2], sys.argv[3])
+    #print(branch.branch1)
+    move(root_path,"infer",sys.argv[1])
 
 
     print("Subprocess...........")
-
